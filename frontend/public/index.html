@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Smart Attendance System</title>
+    
+    <!-- Your Tailwind and Font Configuration goes here -->
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#9d4300", "primary-container": "#f97316", "on-primary": "#ffffff",
+              "surface": "#faf8ff", "on-surface": "#131b2e", "on-surface-variant": "#584237",
+              "surface-container-lowest": "#ffffff", "surface-container-low": "#f2f3ff",
+              "surface-container": "#eaedff", "surface-container-high": "#e2e7ff", "surface-container-highest": "#dae2fd",
+              "outline": "#8c7164", "outline-variant": "#e0c0b1",
+              "error": "#ba1a1a", "error-container": "#ffdad6", "on-error": "#ffffff",
+              "tertiary": "#006398", "tertiary-container": "#00a2f4", "on-tertiary": "#ffffff"
+            },
+            fontFamily: { "headline": ["Manrope"], "body": ["Inter"], "label": ["Inter"] },
+          }
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    
+    <!-- THIS IS THE MISSING PIECE -->
+    <div id="root"></div>
+    
+  </body>
+</html>

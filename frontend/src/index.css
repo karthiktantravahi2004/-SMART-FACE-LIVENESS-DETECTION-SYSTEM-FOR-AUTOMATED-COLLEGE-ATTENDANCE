@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+.aura-gradient { background: linear-gradient(135deg, #f97316 0%, #9d4300 100%); }
+.camera-bracket-tl { border-top: 3px solid #f97316; border-left: 3px solid #f97316; }
+.camera-bracket-tr { border-top: 3px solid #f97316; border-right: 3px solid #f97316; }
+.camera-bracket-bl { border-bottom: 3px solid #f97316; border-left: 3px solid #f97316; }
+.camera-bracket-br { border-bottom: 3px solid #f97316; border-right: 3px solid #f97316; }
+.thinking-pulse { animation: pulse-ring 3s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+@keyframes pulse-ring { 0%, 100% { opacity: 0.05; } 50% { opacity: 0.15; } }
+.custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+.custom-scrollbar::-webkit-scrollbar-track { background: #f2f3ff; }
+.custom-scrollbar::-webkit-scrollbar-thumb { background: #fda77a; border-radius: 10px; }
