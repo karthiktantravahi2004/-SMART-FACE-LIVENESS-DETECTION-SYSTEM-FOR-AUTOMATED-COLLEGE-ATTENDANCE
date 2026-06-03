@@ -1,16 +1,14 @@
-# config/firebase_config.py
-
+import os
+import json
 import firebase_admin
 from firebase_admin import credentials, firestore
 
-# -------- INIT FIREBASE --------
 def init_firebase():
     if not firebase_admin._apps:
-        cred = credentials.Certificate("firebase_key.json")  # <-- your key file
+        firebase_json = os.getenv("FIREBASE_CREDENTIALS_JSON")
+        cred = credentials.Certificate(json.loads(firebase_json))
         firebase_admin.initialize_app(cred)
 
     return firestore.client()
 
-
-# -------- EXPORT DB --------
 db = init_firebase()
