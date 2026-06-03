@@ -1,5 +1,8 @@
 const BASE_URL = import.meta.env.VITE_API_URL;
 
+// 🔥 DEBUG (remove later after working)
+console.log("API URL:", BASE_URL);
+
 const api = {
 
   processFrame: async (base64Image) => {
