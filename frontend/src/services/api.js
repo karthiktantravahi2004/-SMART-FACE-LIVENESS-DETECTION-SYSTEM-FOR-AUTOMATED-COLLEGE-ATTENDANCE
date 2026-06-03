@@ -1,6 +1,9 @@
-const BASE_URL = import.meta.env.VITE_API_URL;
+// ✅ Fallback-safe BASE URL
+const BASE_URL =
+  import.meta.env.VITE_API_URL ||
+  "https://smart-face-liveness-detection-system-for.onrender.com";
 
-// 🔥 DEBUG (remove later after working)
+// 🔥 DEBUG (remove later)
 console.log("API URL:", BASE_URL);
 
 const api = {
