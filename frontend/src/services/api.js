@@ -1,3 +1,5 @@
+const BASE_URL = import.meta.env.VITE_API_URL;
+
 const api = {
 
   processFrame: async (base64Image) => {
@@ -5,7 +7,7 @@ const api = {
     const timeoutId = setTimeout(() => controller.abort(), 2500);
 
     try {
-      const res = await fetch(`/process-frame`, {
+      const res = await fetch(`${BASE_URL}/process-frame`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ image: base64Image }),
@@ -22,7 +24,6 @@ const api = {
 
   markAttendance: async (identity) => {
     try {
-      // 🔥 GET GPS
       const getLocation = () => {
         return new Promise((resolve, reject) => {
           navigator.geolocation.getCurrentPosition(
@@ -48,7 +49,7 @@ const api = {
         longitude: coords.longitude
       };
 
-      const res = await fetch(`/mark-attendance`, {
+      const res = await fetch(`${BASE_URL}/mark-attendance`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
@@ -62,17 +63,17 @@ const api = {
   },
 
   getRecords: async () => {
-    const res = await fetch(`/records`);
+    const res = await fetch(`${BASE_URL}/records`);
     return await res.json();
   },
 
   getAbsentees: async () => {
-    const res = await fetch(`/absentees`);
+    const res = await fetch(`${BASE_URL}/absentees`);
     return await res.json();
   },
 
   registerStudent: async (data) => {
-    const res = await fetch(`/register`, {
+    const res = await fetch(`${BASE_URL}/register`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
