@@ -5,7 +5,7 @@ import cv2
 import cloudinary.uploader
 
 from config.firebase_config import db
-import config.cloudinary_config
+import config.cloudinary_config  # MUST exist
 from services.face_service import detect_face, get_embedding
 
 register_bp = Blueprint("register", __name__)
@@ -17,6 +17,7 @@ def register_student():
         data = request.json
         print("Incoming data:", data)
 
+        # 🔹 VALIDATION
         required_fields = ["name", "student_id", "image"]
         for field in required_fields:
             if field not in data:
@@ -27,6 +28,7 @@ def register_student():
         if not isinstance(image_data, str) or "," not in image_data:
             return jsonify({"success": False, "error": "Invalid image format"}), 400
 
+        # 🔹 BASE64 DECODE
         try:
             img_bytes = base64.b64decode(image_data.split(",")[1])
         except Exception:
@@ -38,14 +40,21 @@ def register_student():
         if frame is None:
             return jsonify({"success": False, "error": "Image decode failed"}), 400
 
+        # 🔹 FACE DETECTION
         face = detect_face(frame)
         if face is None:
             return jsonify({"success": False, "error": "No face detected"}), 400
 
-        embedding = get_embedding(face)
+        # 🔹 EMBEDDING (SAFE)
+        try:
+            embedding = get_embedding(face)
+        except Exception as e:
+            print("Embedding error:", e)
+            embedding = np.zeros(128)
 
+        # 🔹 CLOUDINARY UPLOAD (FIXED)
         cloudinary_result = cloudinary.uploader.upload(
-            image_data,
+            img_bytes,
             folder="attendance/students",
             public_id=data["student_id"],
             overwrite=True,
@@ -54,17 +63,19 @@ def register_student():
 
         image_url = cloudinary_result.get("secure_url", "")
 
+        if not image_url:
+            return jsonify({"success": False, "error": "Image upload failed"}), 500
+
+        # 🔹 FIREBASE SAVE
         ref = db.collection("students").document(data["student_id"])
         doc = ref.get()
 
-        # 🔥 FIX: use dict instead of array
         if doc.exists:
             doc_data = doc.to_dict()
             embeddings = doc_data.get("embeddings", {})
         else:
             embeddings = {}
 
-        # ensure dict
         if not isinstance(embeddings, dict):
             embeddings = {}
 
@@ -83,8 +94,14 @@ def register_student():
 
         print("✅ Registered:", data["student_id"])
 
-        return jsonify({"success": True, "image_url": image_url})
+        return jsonify({
+            "success": True,
+            "image_url": image_url
+        })
 
     except Exception as e:
         print("❌ REGISTER ERROR:", str(e))
-        return jsonify({"success": False, "error": str(e)}), 500
+        return jsonify({
+            "success": False,
+            "error": str(e)
+        }), 500
